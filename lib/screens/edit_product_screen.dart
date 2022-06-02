@@ -90,11 +90,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (!isValid!) return;
     _form.currentState!.save();
     if (_editedProduct.id != null && _editedProduct.id.isNotEmpty) {
-      print("updated id ${_editedProduct.id}");
       Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
-      print("saved");
       Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
     }
     Navigator.of(context).pop();
