@@ -61,9 +61,24 @@ class Products with ChangeNotifier {
         "https://flutter-shop-app-66e9d-default-rtdb.asia-southeast1.firebasedatabase.app/products.json");
     try {
       final res = await http.get(url);
-      print(json.decode(res.body));
+      final extractedData = json.decode(res.body) as Map<String, dynamic>;
+      final List<Product> loadedProducts = [];
+
+      extractedData.forEach((prodId, prodData) {
+        loadedProducts.add(Product(
+          id: prodId,
+          title: prodData["title"],
+          desc: prodData["description"],
+          price: prodData["price"],
+          imageUrl: prodData["imageUrl"],
+          isFavorite: prodData["isFavorite"],
+        ));
+      });
+
+      _items = loadedProducts;
+      notifyListeners();
     } catch (e) {
-      throw e;
+      throw (e);
     }
   }
 
